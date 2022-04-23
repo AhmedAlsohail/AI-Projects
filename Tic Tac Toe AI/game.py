@@ -1,7 +1,10 @@
-# Imports
+# ----------------------------------- Imports -----------------------------------
 import numpy as np
+from minimax import PlayWithMinimax
+from RandomMoveAgent import playRandomMove
 
-# Functions
+# ----------------------------------- Supporting Fucntions -----------------------------------
+# To get the move (1-9) from human player.
 def play_turn():
     pos = int(input("\n{} turn, which position you want to play? ".format(player_symbol(playerTurn)))) # Enter number from 1 to 9.
 
@@ -16,10 +19,13 @@ def play_turn():
         print("Illgeal move.")
         play_turn()
 
-'''
-Print the board in a clear way for the player,
-show 1 as X, -1 as O, and 0 (empty fields) as their position number (from 1 to 9)
+def bot_turn(chosenMove):
+    XYposition = get_XYposition(chosenMove) # Get XY Cordinates of this position.
+    board[XYposition[0], XYposition[1]] = playerTurn # No need for checking if posision is avilable, since it was done in by the agent.
 
+# print_table() prints the board in a clear way for the player,
+# and shows 1 as X, -1 as O, and 0 (empty fields) as their position number (from 1 to 9)
+'''
 Example:
 Board array print without the function:
  1   0   1
@@ -76,7 +82,10 @@ def get_XYposition(position):
     else:
         return [3, 3] # Will result in out of index exception.
 
-# The main game
+# ----------------------------------- Mini max Agent -----------------------------------
+
+
+# ----------------------------------- The main game -----------------------------------
 board = np.zeros((3, 3)).astype(int) # board of the game is 3x3 and we can say X is 0, and O is 1.
 
 playerTurn = 1 # player 1 (X) or -1 (O) turn.
@@ -91,7 +100,14 @@ def check_win():
 
 while (avilableMoves > 0):
     print_table(board)
-    play_turn()
+    if(playerTurn == 1):
+        play_turn()
+    else:
+        chosenMove = PlayWithMinimax(board)
+        bot_turn(chosenMove)
+        print("\nThe has opponent played in position {}".format(chosenMove))
+        
+    
     if check_win():
         print_table(board)
         print("{} has won!".format(player_symbol(playerTurn)))
@@ -104,4 +120,3 @@ if(avilableMoves <= 0):
     print_table(board)
     print("Tie")
     input("")
-
