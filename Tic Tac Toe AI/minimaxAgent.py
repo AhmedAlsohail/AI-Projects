@@ -67,17 +67,11 @@ def Evaluate(board):
     if(any(np.sum(board, 1) == 2) or any(np.sum(board, 0) == 2) or (sum(np.diag(board)) == 2) or (sum(np.diag(board[::-1])) == 2)):
         return -10 # If X (player) wins
 
-    if(any(np.sum(board, 1) == -1) or any(np.sum(board, 0) == -1) or (sum(np.diag(board)) == -1) or (sum(np.diag(board[::-1])) == -1)):
-        return 10 # If O (agent) wins
-
-    if(any(np.sum(board, 1) == 1) or any(np.sum(board, 0) == 1) or (sum(np.diag(board)) == 1) or (sum(np.diag(board[::-1])) == 1)):
-        return -1 # If X (player) wins
-
     return 0
 
     '''
     .......................................Evaluation function can be improved.......................................
-        score = 0
+    score = 0
     score = score + sum(np.sum(board, 1) == -3) + sum(np.sum(board, 0) == -3) + sum((np.diag(board)) == -3) + sum(np.diag(board[::-1]) == -3) * 100
     score = score + sum(np.sum(board, 1) == -2) + sum(np.sum(board, 0) == -2) + sum((np.diag(board)) == -2) + sum(np.diag(board[::-1]) == -2) * 10
     score = score + sum(np.sum(board, 1) == -1) + sum(np.sum(board, 0) == -1) + sum((np.diag(board)) == -1) + sum(np.diag(board[::-1]) == -11) * 1
@@ -94,7 +88,7 @@ def minimax(board, cureentDepth, playerTurn):
     maxDepth = 5
     scores = 0
     if(Evaluate(board) != 0 or cureentDepth == maxDepth): # Stop when reaching max depth or if the game has ended.
-        return Evaluate(board)
+        return -Evaluate(board)*playerTurn
 
     validMoves = getValidMoves(board) # List of valid moves for the temp board
     if(len(validMoves) > 0): # If there is valid moves then
@@ -102,12 +96,8 @@ def minimax(board, cureentDepth, playerTurn):
         for i in validMoves:
             temp_state = applyMove(i, np.array(board, copy=True), playerTurn)
             temp_score = minimax(temp_state, cureentDepth+1, playerTurn*-1)
-            if(playerTurn == -1):
-                if(temp_score > ChoosenMoveScore):
+            if(temp_score > ChoosenMoveScore):
                     ChoosenMoveScore = temp_score
-                else:
-                    if(temp_score < ChoosenMoveScore):
-                        ChoosenMoveScore = temp_score
         return ChoosenMoveScore
     else:
         return minimax(np.array(board, copy=True), cureentDepth+1, playerTurn*-1)
@@ -120,7 +110,6 @@ def FindBestMove(board, validMoves):
     for i in validMoves:
         temp_state = applyMove(i, np.array(board, copy=True), -1)
         temp_score = minimax(temp_state, 1, -1)
-
         if(temp_score > bestMoveScore):
             bestMove = i
             bestMoveScore = temp_score
