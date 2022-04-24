@@ -1,5 +1,5 @@
 # AI-Project
-In this repository, I will be sharing the projects I created in my journey of learning AI algorithms such as DFS and minimax.
+In this repository, I will be sharing the projects I created during my journey in learning AI algorithms such as DFS and minimax.
 
 ## Projects
 
