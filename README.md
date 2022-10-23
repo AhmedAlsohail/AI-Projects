@@ -4,7 +4,7 @@ In this repository, I will be sharing the projects I created during my journey i
 ## Projects
 
 ### DFS maze solver (C#)
-A challenge for creating a maze solver for nxn size mazes.
+A challenge for creating a maze solver for NxN size mazes.
 ______________________
 ### Tic Tac Toe AI (Python)
 Tic Tac Toe AI agent using minimax algorithm, both game and agent were created from scratch.
